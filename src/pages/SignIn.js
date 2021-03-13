@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Button } from "@material-ui/core";
 import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
 import SearchIcon from "@material-ui/icons/Search";
 import PeopleIcon from "@material-ui/icons/SupervisorAccount";
 import HeartIcon from "@material-ui/icons/FavoriteBorder";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
 
-const useStyles = makeStyles((theme) => ({
+import { ModalPopUp } from "../components/ModalPopUp/index";
+
+const useSignInStyles = makeStyles((theme) => ({
   wrapper: {
     display: "flex",
     height: "100vh",
@@ -61,13 +66,44 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 45,
     marginTop: 20,
   },
+  loginTagline: {
+    marginBottom: 20,
+  },
   logoIcon: {
     fontSize: 50,
+  },
+  registerField: {
+    marginBottom: theme.spacing(5),
+  },
+  loginFormControl: {
+    marginBottom: theme.spacing(2),
+  },
+  loginButton: {
+    marginTop: 25,
+  },
+  loginButtonGroup: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
 function SignIn() {
-  const classes = useStyles();
+  const classes = useSignInStyles();
+
+  const [showModal, setShowModal] = useState(undefined);
+
+  const handleSignInClick = () => {
+    setShowModal("signIn");
+  };
+
+  const handleSignUpClick = () => {
+    setShowModal("signUp");
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(undefined);
+  };
+
   return (
     <div className={classes.wrapper}>
       <section className={classes.infoContainer}>
@@ -99,15 +135,126 @@ function SignIn() {
           <Typography className={classes.loginTitle} variant="h6">
             Keep in touch with the whole world
           </Typography>
-          <Typography>
+          <Typography className={classes.loginTagline}>
             <b>Join the social network right now</b>
           </Typography>
-          <Button variant="contained" color="primary">
-            Sign Up
-          </Button>
-          <Button variant="outlined" color="primary">
-            Sign In
-          </Button>
+          <div className={classes.loginButtonGroup}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSignUpClick}
+            >
+              Sign Up
+            </Button>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleSignInClick}
+            >
+              Sign In
+            </Button>
+          </div>
+
+          <ModalPopUp
+            visible={showModal === "signUp"}
+            onClose={handleCloseModal}
+            title="Create your account"
+          >
+            <FormControl
+              className={classes.loginFormControl}
+              component="fieldset"
+              fullWidth
+            >
+              <FormGroup aria-label="position" row>
+                <TextField
+                  className={classes.registerField}
+                  autoFocus
+                  id="name"
+                  label="Name"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="name"
+                  fullWidth
+                />
+                <TextField
+                  className={classes.registerField}
+                  autoFocus
+                  id="email"
+                  label="E-Mail"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="email"
+                  fullWidth
+                />
+                <TextField
+                  className={classes.registerField}
+                  autoFocus
+                  id="password"
+                  label="Password"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="password"
+                  fullWidth
+                />
+                <Button variant="contained" color="primary" fullWidth>
+                  Create
+                </Button>
+              </FormGroup>
+            </FormControl>
+          </ModalPopUp>
+          <ModalPopUp
+            visible={showModal === "signIn"}
+            onClose={handleCloseModal}
+            title="Login into account"
+          >
+            <FormControl
+              className={classes.loginFormControl}
+              component="fieldset"
+              fullWidth
+            >
+              <FormGroup aria-label="position" row>
+                <TextField
+                  className={classes.loginSideField}
+                  autoFocus
+                  id="email"
+                  label="E-Mail"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="email"
+                  fullWidth
+                />
+                <TextField
+                  className={classes.loginSideField}
+                  autoFocus
+                  id="password"
+                  label="Password"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  type="password"
+                  fullWidth
+                />
+                <Button
+                  onClick={handleCloseModal}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  className={classes.loginButton}
+                >
+                  Login
+                </Button>
+              </FormGroup>
+            </FormControl>
+          </ModalPopUp>
         </div>
       </section>
     </div>
