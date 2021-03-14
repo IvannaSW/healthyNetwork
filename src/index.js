@@ -3,12 +3,17 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ThemeProvider, CssBaseline } from "@material-ui/core";
+
 import theme from "./theme";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <App />
+    <CssBaseline />
+    <Router>
+      <App />
+    </Router>
   </ThemeProvider>,
   document.getElementById("root")
 );

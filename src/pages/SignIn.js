@@ -9,7 +9,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 
-import { ModalPopUp } from "../components/ModalPopUp/index";
+import { ModalPopUp } from "../components/ModalPopUp";
 
 const useSignInStyles = makeStyles((theme) => ({
   wrapper: {
