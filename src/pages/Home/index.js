@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   InputAdornment,
@@ -13,9 +13,26 @@ import AddPostForm from "../../components/AddPostForm";
 import { useHomeStyles } from "./theme";
 import SearchTextField from "../../components/SearchTextField";
 import SearchIcon from "@material-ui/icons/SearchOutlined";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts } from "../../store/posts/actions";
+import {
+  selectPostsItems,
+  selectIsPostsLoading,
+} from "../../store/posts/selectors";
 
 const Home = () => {
   const classes = useHomeStyles();
+
+  const dispatch = useDispatch();
+  const posts = useSelector(selectPostsItems);
+  const isLoading = useSelector(selectIsPostsLoading);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
   return (
     <Container className={classes.wrapper} maxWidth="lg">
       <Grid container spacing={3}>
@@ -34,20 +51,20 @@ const Home = () => {
               <div className={classes.addFormBottomLine} />
             </Paper>
 
-            {[
-              ...new Array(5).fill(
+            {isLoading ? (
+              <div className={classes.tweetsCentred}>
+                <CircularProgress />
+              </div>
+            ) : (
+              posts.map((post) => (
                 <Post
-                  text="With 67 million people using Twitter every month, it's a tough job to get the most Twitter followers out of everyone. Competition is stiff, but these people have made it to the top of the table."
-                  user={{
-                    fullname: "Ivanna Savchuk",
-                    username: "IvannaSW",
-                    avatarUrl:
-                      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
-                  }}
+                  key={post._id}
+                  text={post.text}
+                  user={post.user}
                   classes={classes}
                 />
-              ),
-            ]}
+              ))
+            )}
           </Paper>
         </Grid>
         <Grid item xs={3}>
