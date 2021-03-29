@@ -7,10 +7,19 @@ import IconButton from "@material-ui/core/IconButton";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import ImageOutlinedIcon from "@material-ui/icons/ImageOutlined";
 import EmojiIcon from "@material-ui/icons/SentimentSatisfiedOutlined";
+import Alert from "@material-ui/lab/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAddPost } from "../store/posts/actions";
+import { selectAddFormState } from "../store/posts/selectors";
+import { AddFormState } from "../store/posts/types";
+
 import { PropTypes } from "prop-types";
 
 const AddPostForm = ({ classes, maxRows }) => {
+  const dispatch = useDispatch();
   const [text, setText] = useState("");
+
+  const addFormState = useSelector(selectAddFormState);
   const MAX_LENGTH = 280;
   const textLimitPercent = Math.round((text.length / MAX_LENGTH) * 100);
   const textCount = MAX_LENGTH - text.length;
@@ -18,6 +27,7 @@ const AddPostForm = ({ classes, maxRows }) => {
     setText(e.target.value);
   };
   const handleSubmitPost = () => {
+    dispatch(fetchAddPost(text));
     setText("");
   };
   return (
@@ -79,12 +89,29 @@ const AddPostForm = ({ classes, maxRows }) => {
           <Button
             color="primary"
             variant="contained"
+            disabled={
+              addFormState === AddFormState.LOADING ||
+              !text ||
+              text.length >= MAX_LENGTH
+            }
             onClick={handleSubmitPost}
           >
-            Post
+            {addFormState === AddFormState.LOADING ? (
+              <CircularProgress color="inherit" size={16} />
+            ) : (
+              "Post"
+            )}
           </Button>
         </div>
       </div>
+      {addFormState === AddFormState.ERROR && (
+        <Alert severity="error">
+          Error during new post creating{" "}
+          <span aria-label="emoji-plak" role="img">
+            😞
+          </span>
+        </Alert>
+      )}
     </div>
   );
 };

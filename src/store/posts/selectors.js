@@ -5,6 +5,8 @@ export const selectPosts = (state) => state.posts;
 
 export const selectLoadingState = (state) => selectPosts(state).loadingState;
 
+export const selectAddFormState = (state) => selectPosts(state).addFormState;
+
 export const selectIsPostsLoading = (state) =>
   selectLoadingState(state) === LoadingState.LOADING;
 

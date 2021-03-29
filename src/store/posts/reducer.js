@@ -1,9 +1,10 @@
 import produce from "immer";
-import { PostsActionTypes, LoadingState } from "./types";
+import { PostsActionTypes, LoadingState, AddFormState } from "./types";
 
 const INITIAL_STATE = {
   items: [],
   loadingState: LoadingState.NEVER,
+  addFormState: AddFormState.NEVER,
 };
 
 export const postsReducer = produce((draft, action) => {
@@ -20,6 +21,19 @@ export const postsReducer = produce((draft, action) => {
 
     case PostsActionTypes.SET_LOADING_STATE:
       draft.loadingState = action.payload;
+      break;
+
+    case PostsActionTypes.SET_ADD_FORM_STATE:
+      draft.addFormState = action.payload;
+      break;
+
+    case PostsActionTypes.FETCH_ADD_POST:
+      draft.addFormState = AddFormState.LOADING;
+      break;
+
+    case PostsActionTypes.ADD_POST:
+      draft.items.push(action.payload);
+      draft.addFormState = AddFormState.NEVER;
       break;
 
     default:
