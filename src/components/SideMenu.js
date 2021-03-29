@@ -10,6 +10,7 @@ import { Button, IconButton, Typography, Hidden } from "@material-ui/core";
 import { PropTypes } from "prop-types";
 import { ModalPopUp } from "../components/ModalPopUp";
 import AddPostForm from "../components/AddPostForm";
+import { Link } from "react-router-dom";
 
 const SideMenu = ({ classes }) => {
   const [visibleAddPost, setVisibleAddPost] = useState(false);
@@ -21,9 +22,11 @@ const SideMenu = ({ classes }) => {
   return (
     <ul className={classes.sideMenuList}>
       <li className={classes.sideMenuListItem}>
-        <IconButton className={classes.logo} aria-label="" color="primary">
-          <LocalFloristIcon className={classes.logoIcon} />
-        </IconButton>
+        <Link to="/home">
+          <IconButton className={classes.logo} aria-label="" color="primary">
+            <LocalFloristIcon className={classes.logoIcon} />
+          </IconButton>
+        </Link>
       </li>
       <li className={classes.sideMenuListItem}>
         <div>

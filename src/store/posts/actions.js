@@ -1,8 +1,8 @@
 import { PostsActionTypes } from "./types";
 
-export const setPosts = (posts) => ({
+export const setPosts = (items) => ({
   type: PostsActionTypes.SET_POSTS,
-  payload: posts,
+  payload: items,
 });
 
 export const fetchPosts = () => ({

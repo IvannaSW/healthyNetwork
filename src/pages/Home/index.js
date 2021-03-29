@@ -6,6 +6,9 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import Tags from "../../components/Tags";
+import { Route } from "react-router-dom";
+import { fetchTags } from "../../store/tags/actions";
 
 import Post from "../../components/Post";
 import SideMenu from "../../components/SideMenu";
@@ -22,6 +25,9 @@ import {
   selectIsPostsLoading,
 } from "../../store/posts/selectors";
 
+import { FullPost } from "./components/FullPost";
+import { BackButton } from "../../components/BackButton";
+
 const Home = () => {
   const classes = useHomeStyles();
 
@@ -31,6 +37,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchPosts());
+    dispatch(fetchTags());
   }, [dispatch]);
 
   return (
@@ -42,29 +49,39 @@ const Home = () => {
         <Grid item xs={6}>
           <Paper className={classes.postsWrapper} variant="outlined">
             <Paper className={classes.postsHeader} variant="outlined">
-              <Typography variant="h6">Main page</Typography>
-            </Paper>
-            <Paper>
-              <div className={classes.addForm}>
-                <AddPostForm classes={classes} />
-              </div>
-              <div className={classes.addFormBottomLine} />
-            </Paper>
+              <Route path="/home/:any">
+                <BackButton />
+              </Route>
 
-            {isLoading ? (
-              <div className={classes.tweetsCentred}>
-                <CircularProgress />
-              </div>
-            ) : (
-              posts.map((post) => (
-                <Post
-                  key={post._id}
-                  text={post.text}
-                  user={post.user}
-                  classes={classes}
-                />
-              ))
-            )}
+              <Route path={["/home", "/home/search"]} exact>
+                <Typography variant="h6">Posts</Typography>
+              </Route>
+
+              <Route path="/home/post">
+                <Typography variant="h6">Repost</Typography>
+              </Route>
+            </Paper>
+            <Route path={["/home", "/home/search"]} exact>
+              <Paper>
+                <div className={classes.addForm}>
+                  <AddPostForm classes={classes} />
+                </div>
+                <div className={classes.addFormBottomLine} />
+              </Paper>
+            </Route>
+
+            <Route path="/home" exact>
+              {isLoading ? (
+                <div className={classes.tweetsCentred}>
+                  <CircularProgress />
+                </div>
+              ) : (
+                posts.map((post) => (
+                  <Post key={post._id} classes={classes} {...post} />
+                ))
+              )}
+            </Route>
+            <Route path="/home/post/:id" component={FullPost} exact />
           </Paper>
         </Grid>
         <Grid item xs={3}>
@@ -80,6 +97,7 @@ const Home = () => {
             }}
             fullWidth
           />
+          <Tags classes={classes} />
         </Grid>
       </Grid>
     </Container>

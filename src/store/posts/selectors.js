@@ -9,7 +9,7 @@ export const selectIsPostsLoading = (state) =>
   selectLoadingState(state) === LoadingState.LOADING;
 
 export const selectIsPostsLoaded = (state) =>
-  selectLoadingState(state) === LoadingState.LOADING;
+  selectLoadingState(state) === LoadingState.LOADED;
 
 export const selectPostsItems = createSelector(
   selectPosts,

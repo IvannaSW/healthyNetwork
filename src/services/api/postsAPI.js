@@ -1,7 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const PostsApi = {
   fetchPosts() {
-    return axios.get('https://trycode.pw/c/2OBQ1.json').then(({ data }) => data);
+    return axios.get("/posts").then(({ data }) => data);
+  },
+  fetchPostData(id) {
+    return axios.get("/posts?_id=" + id).then(({ data }) => data);
   },
 };

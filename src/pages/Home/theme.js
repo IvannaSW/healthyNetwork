@@ -68,6 +68,8 @@ export const useHomeStyles = makeStyles((theme) => ({
     borderBottom: "0",
   },
   postsHeader: {
+    display: "flex",
+    alignItems: "center",
     borderTop: "0",
     borderLeft: "0",
     borderRight: "0",
@@ -77,11 +79,16 @@ export const useHomeStyles = makeStyles((theme) => ({
       fontWeight: 800,
     },
   },
+  postWrapper: {
+    color: "inherit",
+    textDecoration: "none",
+  },
   post: {
     display: "flex",
     cursor: "pointer",
     paddingTop: 15,
     paddingLeft: 20,
+    alignItems: "flex-start",
     "&:hover": {
       backgroundColor: "#eaf8fa",
     },
@@ -152,6 +159,36 @@ export const useHomeStyles = makeStyles((theme) => ({
     marginTop: 20,
     "& .MuiList-root": {
       paddingTop: 0,
+    },
+  },
+  rightSideBlockHeader: {
+    borderTop: 0,
+    borderLeft: 0,
+    borderRight: 0,
+    backgroundColor: "transparent",
+    padding: "13px 18px",
+    "& b": {
+      fontSize: 20,
+      fontWeight: 800,
+    },
+  },
+  rightSideBlockItem: {
+    cursor: "pointer",
+    "& .MuiTypography-body1": {
+      fontWeight: 700,
+    },
+    "& .MuiListItemAvatar-root": {
+      minWidth: 50,
+    },
+    "& .MuiListItemText-root": {
+      margin: 0,
+    },
+    "&:hover": {
+      backgroundColor: "#edf3f6",
+    },
+    "& a": {
+      color: "inherit",
+      textDecoration: "none",
     },
   },
 }));
